@@ -22,7 +22,7 @@ namespace HOSPITALMANAGEMENT.Controllers
 
         [AllowAnonymous]
         [HttpPost("Login")]
-        public ActionResult<string> Login(LoginInputModel userModel)
+        public ActionResult<object> Login(LoginInputModel userModel)
         {
             try
             {
@@ -33,7 +33,14 @@ namespace HOSPITALMANAGEMENT.Controllers
                         var user = this.authService.GetByEmail(userModel.Email);
                         var token = this.authService.GenerateJwtToken(userModel.Email, user.Role);
 
-                        return Ok(Json(token));
+                        // Create an anonymous object to return both the token and the user's role.
+                        var response = new
+                        {
+                            Token = token,
+                            Role = user.Role
+                        };
+
+                        return Ok(response);
                     }
                     return BadRequest("Email or password are not correct!");
                 }
@@ -46,6 +53,7 @@ namespace HOSPITALMANAGEMENT.Controllers
                 return StatusCode(500);
             }
         }
+
         [AllowAnonymous]
         [HttpPost("Register")]
         public ActionResult<string> Register(RegisterInputModel userModel)
