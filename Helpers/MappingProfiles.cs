@@ -12,6 +12,7 @@ namespace HOSPITALMANAGEMENT.Helpers
             CreateMap<RegisterInputModel, User>().ReverseMap();
             CreateMap<EventInputModel, Event>().ReverseMap();
             CreateMap<UserEventInputModel, UserEvent>().ReverseMap();
+
         }
     }
 }

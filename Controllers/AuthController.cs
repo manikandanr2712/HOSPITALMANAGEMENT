@@ -22,37 +22,37 @@ namespace HOSPITALMANAGEMENT.Controllers
 
         [AllowAnonymous]
         [HttpPost("Login")]
-        public ActionResult<object> Login(LoginInputModel userModel)
+public ActionResult<object> Login(LoginInputModel userModel)
+{
+    try
+    {
+        if (ModelState.IsValid)
         {
-            try
+            if (this.authService.IsAuthenticated(userModel.Email, userModel.Password))
             {
-                if (ModelState.IsValid)
+                var user = this.authService.GetByEmail(userModel.Email);
+                var token = this.authService.GenerateJwtToken(userModel.Email, user.Role);
+
+                // Create an anonymous object to return both the token and the user's role.
+                var response = new
                 {
-                    if (this.authService.IsAuthenticated(userModel.Email, userModel.Password))
-                    {
-                        var user = this.authService.GetByEmail(userModel.Email);
-                        var token = this.authService.GenerateJwtToken(userModel.Email, user.Role);
+                    Token = token,
+                    Role = user.Role
+                };
 
-                        // Create an anonymous object to return both the token and the user's role.
-                        var response = new
-                        {
-                            Token = token,
-                            Role = user.Role
-                        };
-
-                        return Ok(response);
-                    }
-                    return BadRequest("Email or password are not correct!");
-                }
-
-                return BadRequest(ModelState);
+                return Ok(response);
             }
-            catch (Exception error)
-            {
-                logger.LogError(error.Message);
-                return StatusCode(500);
-            }
+            return BadRequest("Email or password are not correct!");
         }
+
+        return BadRequest(ModelState);
+    }
+    catch (Exception error)
+    {
+        logger.LogError(error.Message);
+        return StatusCode(500);
+    }
+}
 
         [AllowAnonymous]
         [HttpPost("Register")]

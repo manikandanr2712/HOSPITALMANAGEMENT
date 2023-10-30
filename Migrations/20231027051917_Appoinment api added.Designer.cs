@@ -4,6 +4,7 @@ using HOSPITALMANAGEMENT.Data.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HOSPITALMANAGEMENT.Migrations
 {
     [DbContext(typeof(dbContext))]
-    partial class dbContextModelSnapshot : ModelSnapshot
+    [Migration("20231027051917_Appoinment api added")]
+    partial class Appoinmentapiadded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,21 +36,15 @@ namespace HOSPITALMANAGEMENT.Migrations
                     b.Property<DateTime>("AppointmentDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("PatientName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("DoctorId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("SearchDiseaseName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SelectedDoctor")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("PatientId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("BookedAppointments");
+                    b.ToTable("BookedAppointment");
                 });
 
             modelBuilder.Entity("HOSPITALMANAGEMENT.Model.DbModels.Event", b =>

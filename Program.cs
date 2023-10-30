@@ -84,16 +84,15 @@ var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 //Add CORS
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(
-        builder =>
-        {
-            //you can configure your custom policy
-            builder.AllowAnyOrigin()
-                                .AllowAnyHeader()
-                                .AllowAnyMethod();
-        });
+    options.AddPolicy("AllowSpecificOrigin", builder =>
+    {
+        // In a production environment, specify the allowed origin(s) explicitly
+        builder.WithOrigins("http://localhost:4200")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials(); // Allow credentials
+    });
 });
-
 
 // Declared services
 builder.Services.AddScoped<DBSeeder>();
@@ -108,7 +107,7 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseCors();
+app.UseCors("AllowSpecificOrigin");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
