@@ -33,11 +33,12 @@ public ActionResult<object> Login(LoginInputModel userModel)
                 var user = this.authService.GetByEmail(userModel.Email);
                 var token = this.authService.GenerateJwtToken(userModel.Email, user.Role);
 
-                // Create an anonymous object to return both the token and the user's role.
-                var response = new
-                {
-                    Token = token,
-                    Role = user.Role
+                        // Create an anonymous object to return both the token and the user's role.
+                        var response = new
+                        {
+                            Token = token,
+                            UserId = user.UserId,
+                            Role = user.Role
                 };
 
                 return Ok(response);
@@ -79,7 +80,7 @@ public ActionResult<object> Login(LoginInputModel userModel)
                     if (user != null)
                     {
                         var token = this.authService.GenerateJwtToken(user.Email, mappedModel.Role);
-                        return Ok(Json(token));
+                        return Ok(user);
 
                     }
 

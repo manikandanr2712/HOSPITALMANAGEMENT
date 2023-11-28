@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HOSPITALMANAGEMENT.Migrations
 {
     [DbContext(typeof(dbContext))]
-    [Migration("20231027051917_Appoinment api added")]
-    partial class Appoinmentapiadded
+    [Migration("20231123142739_YourMigrationName")]
+    partial class YourMigrationName
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,15 +36,55 @@ namespace HOSPITALMANAGEMENT.Migrations
                     b.Property<DateTime>("AppointmentDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("DoctorId")
-                        .HasColumnType("int");
+                    b.Property<string>("PatientName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PatientId")
-                        .HasColumnType("int");
+                    b.Property<string>("SearchDiseaseName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SelectedDoctor")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("BookedAppointment");
+                    b.ToTable("BookedAppointments");
+                });
+
+            modelBuilder.Entity("HOSPITALMANAGEMENT.Model.CartModels", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("StockQuantity")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("cartTables");
                 });
 
             modelBuilder.Entity("HOSPITALMANAGEMENT.Model.DbModels.Event", b =>
@@ -90,6 +130,10 @@ namespace HOSPITALMANAGEMENT.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("phoneNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -172,6 +216,43 @@ namespace HOSPITALMANAGEMENT.Migrations
                     b.HasIndex("DiseaseID");
 
                     b.ToTable("Doctor_Patient_Disease");
+                });
+
+            modelBuilder.Entity("HOSPITALMANAGEMENT.Model.ProductModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<decimal?>("Price")
+                        .IsRequired()
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("StockQuantity")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProductsTable");
                 });
 
             modelBuilder.Entity("HOSPITALMANAGEMENT.Model.DbModels.UserEvent", b =>

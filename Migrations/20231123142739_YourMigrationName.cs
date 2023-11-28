@@ -5,7 +5,7 @@
 namespace HOSPITALMANAGEMENT.Migrations
 {
     /// <inheritdoc />
-    public partial class Intialsecondmigration : Migration
+    public partial class YourMigrationName : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

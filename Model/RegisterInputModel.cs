@@ -14,6 +14,10 @@ namespace HOSPITALMANAGEMENT.Model
         public string LastName { get; set; }
 
         [Required]
+        [RegularExpression(@"^\d{10}$", ErrorMessage = "Mobile number must be 10 digits")]
+        public string PhoneNumber { get; set; }
+
+        [Required]
         public string Password { get; set; }
 
         [Required]

@@ -47,7 +47,78 @@ namespace HOSPITALMANAGEMENT.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BookedAppointments");
+                    b.ToTable("BookedAppointments", (string)null);
+                });
+
+            modelBuilder.Entity("HOSPITALMANAGEMENT.Model.CartModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageFile")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("StockQuantity")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("cartTable", (string)null);
+                });
+
+            modelBuilder.Entity("HOSPITALMANAGEMENT.Model.CartModels", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("StockQuantity")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("cartTables", (string)null);
                 });
 
             modelBuilder.Entity("HOSPITALMANAGEMENT.Model.DbModels.Event", b =>
@@ -68,7 +139,7 @@ namespace HOSPITALMANAGEMENT.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Events");
+                    b.ToTable("Events", (string)null);
                 });
 
             modelBuilder.Entity("HOSPITALMANAGEMENT.Model.DbModels.User", b =>
@@ -96,9 +167,13 @@ namespace HOSPITALMANAGEMENT.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("phoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("UserId");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("HOSPITALMANAGEMENT.Model.DbModels.UserEvent", b =>
@@ -113,7 +188,7 @@ namespace HOSPITALMANAGEMENT.Migrations
 
                     b.HasIndex("EventId");
 
-                    b.ToTable("UserEvents");
+                    b.ToTable("UserEvents", (string)null);
                 });
 
             modelBuilder.Entity("HOSPITALMANAGEMENT.Model.Disease", b =>
@@ -130,7 +205,7 @@ namespace HOSPITALMANAGEMENT.Migrations
 
                     b.HasKey("DiseaseID");
 
-                    b.ToTable("Diseases");
+                    b.ToTable("Diseases", (string)null);
                 });
 
             modelBuilder.Entity("HOSPITALMANAGEMENT.Model.Doctor", b =>
@@ -147,7 +222,7 @@ namespace HOSPITALMANAGEMENT.Migrations
 
                     b.HasKey("DoctorID");
 
-                    b.ToTable("Doctor");
+                    b.ToTable("Doctor", (string)null);
                 });
 
             modelBuilder.Entity("HOSPITALMANAGEMENT.Model.Doctor_Patient_Disease", b =>
@@ -174,7 +249,44 @@ namespace HOSPITALMANAGEMENT.Migrations
 
                     b.HasIndex("DiseaseID");
 
-                    b.ToTable("Doctor_Patient_Disease");
+                    b.ToTable("Doctor_Patient_Disease", (string)null);
+                });
+
+            modelBuilder.Entity("HOSPITALMANAGEMENT.Model.ProductModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<decimal?>("Price")
+                        .IsRequired()
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("StockQuantity")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProductsTable", (string)null);
                 });
 
             modelBuilder.Entity("HOSPITALMANAGEMENT.Model.DbModels.UserEvent", b =>
