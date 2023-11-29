@@ -1,7 +1,7 @@
-﻿using HOSPITALMANAGEMENT.Model;
+﻿
+using HOSPITALMANAGEMENT.Model;
 using HOSPITALMANAGEMENT.Model.DbModels;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Emit;
 
 namespace HOSPITALMANAGEMENT.Data.Domain
 {
