@@ -39,7 +39,7 @@ public ActionResult<object> Login(LoginInputModel userModel)
                             Token = token,
                             UserId = user.UserId,
                             Role = user.Role
-                };
+                        };
 
                 return Ok(response);
             }

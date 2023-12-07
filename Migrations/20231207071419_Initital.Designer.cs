@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HOSPITALMANAGEMENT.Migrations
 {
     [DbContext(typeof(dbContext))]
-    [Migration("20231123152728_added-cart")]
-    partial class addedcart
+    [Migration("20231207071419_Initital")]
+    partial class Initital
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -85,43 +85,15 @@ namespace HOSPITALMANAGEMENT.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("cartTable");
-                });
-
-            modelBuilder.Entity("HOSPITALMANAGEMENT.Model.CartModels", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImagePath")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal?>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int?>("StockQuantity")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("cartTables");
                 });
 
             modelBuilder.Entity("HOSPITALMANAGEMENT.Model.DbModels.Event", b =>
@@ -292,6 +264,68 @@ namespace HOSPITALMANAGEMENT.Migrations
                     b.ToTable("ProductsTable");
                 });
 
+            modelBuilder.Entity("HOSPITALMANAGEMENT.Model.shippingAddress", b =>
+                {
+                    b.Property<int>("ShippingAddressId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ShippingAddressId"));
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Mobile")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Street")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ZipCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ShippingAddressId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("shippingAddresses");
+                });
+
+            modelBuilder.Entity("HOSPITALMANAGEMENT.Model.CartModel", b =>
+                {
+                    b.HasOne("HOSPITALMANAGEMENT.Model.DbModels.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("HOSPITALMANAGEMENT.Model.DbModels.UserEvent", b =>
                 {
                     b.HasOne("HOSPITALMANAGEMENT.Model.DbModels.Event", "Event")
@@ -328,6 +362,17 @@ namespace HOSPITALMANAGEMENT.Migrations
                     b.Navigation("Disease");
 
                     b.Navigation("Doctor");
+                });
+
+            modelBuilder.Entity("HOSPITALMANAGEMENT.Model.shippingAddress", b =>
+                {
+                    b.HasOne("HOSPITALMANAGEMENT.Model.DbModels.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("HOSPITALMANAGEMENT.Model.DbModels.Event", b =>

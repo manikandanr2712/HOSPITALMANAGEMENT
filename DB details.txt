@@ -1,0 +1,105 @@
+1) query for copy a table from one DB to another
+  SET IDENTITY_INSERT HospitalRestAPI.dbo.ProductsTable ON;
+    INSERT INTO HospitalRestAPI.dbo.ProductsTable (Id, Name, ImagePath, Description, Price, StockQuantity, CreatedAt, UpdatedAt)
+SELECT Id, Name, ImagePath, Description, Price, StockQuantity, CreatedAt, UpdatedAt
+FROM StudentRestAPI.dbo.ProductsTable ;
+SET IDENTITY_INSERT HospitalRestAPI.dbo.ProductsTable OFF;
+
+  SET IDENTITY_INSERT StudentRestAPI.dbo.Users ON;
+    INSERT INTO StudentRestAPI.dbo.Users (Id, Name, ImagePath, Description, Price, StockQuantity, CreatedAt, UpdatedAt)
+SELECT Id, Name, ImagePath, Description, Price, StockQuantity, CreatedAt, UpdatedAt
+FROM HospitalRestAPI.dbo.Users;
+SET IDENTITY_INSERT StudentRestAPI.dbo.Users OFF;
+
+CREATE PROCEDURE dbo.InsertShippingAddress
+    @Name NVARCHAR(255),
+    @Mobile NVARCHAR(20),
+    @Email NVARCHAR(255),
+    @Country NVARCHAR(100),
+    @State NVARCHAR(100),
+    @City NVARCHAR(100),
+    @Street NVARCHAR(255),
+    @ZipCode NVARCHAR(20),
+    @UserId NVARCHAR(50)
+AS
+BEGIN
+    INSERT INTO dbo.ShippingAddresses (Name, Mobile, Email, Country, State, City, Street, ZipCode, UserId)
+    VALUES (@Name, @Mobile, @Email, @Country, @State, @City, @Street, @ZipCode, @UserId);
+END;
+
+CREATE PROCEDURE dbo.UpdateShippingAddress
+    @ShippingAddressId INT,
+    @Name NVARCHAR(255),
+    @Mobile NVARCHAR(20),
+    @Email NVARCHAR(255),
+    @Country NVARCHAR(100),
+    @State NVARCHAR(100),
+    @City NVARCHAR(100),
+    @Street NVARCHAR(255),
+    @ZipCode NVARCHAR(20),
+    @UserId NVARCHAR(50)
+AS
+BEGIN
+    UPDATE dbo.ShippingAddresses
+    SET
+        Name = @Name,
+        Mobile = @Mobile,
+        Email = @Email,
+        Country = @Country,
+        State = @State,
+        City = @City,
+        Street = @Street,
+        ZipCode = @ZipCode,
+        UserId = @UserId
+    WHERE ShippingAddressId = @ShippingAddressId;
+END;
+
+CREATE PROCEDURE dbo.DeleteShippingAddress
+    @ShippingAddressId INT
+AS
+BEGIN
+    DELETE FROM dbo.ShippingAddresses
+    WHERE ShippingAddressId = @ShippingAddressId;
+END;
+
+CREATE PROCEDURE dbo.GetShippingAddressByUserId
+    @UserId NVARCHAR(50)
+AS
+BEGIN
+    SELECT * FROM dbo.ShippingAddresses
+    WHERE UserId = @UserId;
+END;
+
+
+ private readonly DbContext _dbContext;
+
+ public ShippingAddressController(DbContext context)
+ {
+     _dbContext = context;
+ }
+
+ [HttpPost]
+ [Route("PostShippingAddress")]
+ public IActionResult PostShippingAddress([FromBody] shippingAddress shippingAddress)
+ {
+     try
+     {
+         _dbContext.Database.ExecuteSqlRaw("EXEC [dbo].[InsertShippingAddress] @Name, @Mobile, @Email, @Country, @State, @City, @Street, @ZipCode, @UserId",
+             new SqlParameter("@Name", shippingAddress.Name),
+             new SqlParameter("@Mobile", shippingAddress.Mobile),
+             new SqlParameter("@Email", shippingAddress.Email),
+             new SqlParameter("@Country", shippingAddress.Country),
+             new SqlParameter("@State", shippingAddress.State),
+             new SqlParameter("@Street", shippingAddress.Street),
+             new SqlParameter("@ZipCode", shippingAddress.ZipCode),
+             new SqlParameter("@UserId", shippingAddress.UserId)
+             // ... other parameters
+         );
+
+         return Ok("Shipping address added successfully");
+     }
+     catch (Exception ex)
+     {
+         return StatusCode(500, $"Internal Server Error: {ex.Message}");
+     }
+ }

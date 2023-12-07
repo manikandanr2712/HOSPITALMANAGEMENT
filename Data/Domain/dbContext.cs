@@ -27,6 +27,9 @@ namespace HOSPITALMANAGEMENT.Data.Domain
 
         public DbSet<CartModel> cartTable { get; set; }
 
+        public DbSet<shippingAddress> shippingAddresses { get; set; }
+
+
 
 
         protected override void OnModelCreating(ModelBuilder builder)
