@@ -1,7 +1,7 @@
-﻿using HOSPITALMANAGEMENT.Model;
+﻿
+using HOSPITALMANAGEMENT.Model;
 using HOSPITALMANAGEMENT.Model.DbModels;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Emit;
 
 namespace HOSPITALMANAGEMENT.Data.Domain
 {
@@ -23,11 +23,19 @@ namespace HOSPITALMANAGEMENT.Data.Domain
 
         public DbSet<BookedAppointment> BookedAppointments { get; set; }
 
+        public DbSet<ProductModel> ProductsTable { get; set; }
+
+        public DbSet<CartModel> cartTable { get; set; }
+
+        public DbSet<shippingAddress> shippingAddresses { get; set; }
+
+
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-           builder.Entity<Doctor_Patient_Disease>()
-        .HasKey(dpd => new { dpd.DoctorID, dpd.PatientID, dpd.DiseaseID });
+            builder.Entity<Doctor_Patient_Disease>()
+         .HasKey(dpd => new { dpd.DoctorID, dpd.PatientID, dpd.DiseaseID });
 
             base.OnModelCreating(builder);
 
@@ -59,6 +67,11 @@ namespace HOSPITALMANAGEMENT.Data.Domain
               .HasOne(uc => uc.Event)
               .WithMany(ev => ev.UserEvents)
               .HasForeignKey(ev => ev.EventId);
-        }
+
+            builder.Entity<ProductModel>()
+       .Property(p => p.Name)
+       .HasMaxLength(255); // Adjust the length as needed
         }
     }
+}
+    

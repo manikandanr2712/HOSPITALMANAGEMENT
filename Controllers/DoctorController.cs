@@ -55,7 +55,8 @@ namespace HOSPITALMANAGEMENT.Controllers
                 _dbContext.Doctor.Remove(Doctor); // Use Remove to delete
                 await _dbContext.SaveChangesAsync(); // Save changes to the database asynchronously
 
-                return NoContent(); // Return a 204 response on successful deletion
+                //return NoContent(); // Return a 204 response on successful deletion
+                return Ok(id + " is deleted");
             }
             catch (Exception ex)
             {
